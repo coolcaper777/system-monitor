@@ -1,0 +1,84 @@
+<?xml version="1.0"?>
+<Actions>
+    <!-- Power actions: gated behind a required confirmation checkbox, checked
+         BOTH in validateActionConfigUi (so firing from the Indigo UI shows a
+         real dialog error if unchecked) AND again in the callback itself
+         (so firing via plugin.executeAction with props set directly — e.g.
+         from a future web page — can't skip the gate by skipping the
+         dialog). Neither test-fired during development: these genuinely
+         restart/sleep/shut down the Mac running Indigo itself. -->
+    <Action id="rebootMac" deviceFilter="self.systemMonitor">
+        <Name>Reboot This Mac</Name>
+        <CallbackMethod>reboot_mac_action</CallbackMethod>
+        <ConfigUI>
+            <Field id="confirm" type="checkbox" defaultValue="false">
+                <Label>Confirm:</Label>
+                <Description>I understand this immediately restarts the Mac running Indigo, interrupting every automation and plugin until it comes back up.</Description>
+            </Field>
+        </ConfigUI>
+    </Action>
+    <Action id="sleepMac" deviceFilter="self.systemMonitor">
+        <Name>Sleep This Mac</Name>
+        <CallbackMethod>sleep_mac_action</CallbackMethod>
+        <ConfigUI>
+            <Field id="confirm" type="checkbox" defaultValue="false">
+                <Label>Confirm:</Label>
+                <Description>I understand this immediately puts the Mac running Indigo to sleep — Indigo and every custom page stop responding until it wakes.</Description>
+            </Field>
+        </ConfigUI>
+    </Action>
+    <Action id="shutdownMac" deviceFilter="self.systemMonitor">
+        <Name>Shut Down This Mac</Name>
+        <CallbackMethod>shutdown_mac_action</CallbackMethod>
+        <ConfigUI>
+            <Field id="confirm" type="checkbox" defaultValue="false">
+                <Label>Confirm:</Label>
+                <Description>I understand this shuts the Mac running Indigo all the way down — it will NOT come back on its own and needs a physical or remote power-on.</Description>
+            </Field>
+        </ConfigUI>
+    </Action>
+
+    <!-- Shell command: the confirm field must exactly match the command
+         field, re-checked in the callback — not just "a box is ticked", a
+         deliberate retype, so a saved/copied action config can't silently
+         carry a stale confirmation for a command it was never shown next to. -->
+    <Action id="runShellCommand" deviceFilter="self.systemMonitor">
+        <Name>Run Shell Command</Name>
+        <CallbackMethod>run_shell_command_action</CallbackMethod>
+        <ConfigUI>
+            <Field id="command" type="textfield">
+                <Label>Command:</Label>
+                <Description>Runs via subprocess with shell=False (shlex-split) — no pipes/redirects/chaining.</Description>
+            </Field>
+            <Field id="confirmCommand" type="textfield">
+                <Label>Re-type command to confirm:</Label>
+                <Description>Must exactly match the Command field above.</Description>
+            </Field>
+            <Field id="timeout" type="textfield" defaultValue="30">
+                <Label>Timeout (seconds):</Label>
+            </Field>
+        </ConfigUI>
+    </Action>
+
+    <!-- Plugin restart: Indigo's own API (indigo.server.getPlugin(id).restart())
+         genuinely does not offer the ability to disable/enable another
+         plugin at all — "for safety reasons", per Indigo's own scripting
+         docs — so this is restart-only. No kill/disable action exists here;
+         that isn't a gap in this plugin, it's a boundary Indigo itself
+         draws, and the right move is to respect it rather than reach for an
+         OS-level process kill to work around it. -->
+    <Action id="restartIndigoPlugin" deviceFilter="self.systemMonitor">
+        <Name>Restart an Indigo Plugin</Name>
+        <CallbackMethod>restart_plugin_action</CallbackMethod>
+        <ConfigUI>
+            <Field id="targetPluginId" type="menu">
+                <Label>Plugin:</Label>
+                <List class="self" filter="" method="get_installed_plugins_list" dynamicReload="true"/>
+            </Field>
+            <Field id="confirm" type="checkbox" defaultValue="false">
+                <Label>Confirm:</Label>
+                <Description>I understand this stops and relaunches the selected plugin, briefly interrupting its devices.</Description>
+            </Field>
+        </ConfigUI>
+    </Action>
+</Actions>

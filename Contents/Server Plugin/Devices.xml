@@ -1,0 +1,119 @@
+<?xml version="1.0"?>
+<Devices>
+    <!-- The Mac running Indigo itself — whole-machine stats via psutil, not
+         Indigo's own process footprint (that's a different, narrower thing
+         some other plugins track). One of these per Mac you want visibility
+         into; in this house, one for the Indigo server's own Mac. -->
+    <Device type="custom" id="systemMonitor">
+        <Name>System Monitor</Name>
+        <ConfigUI>
+            <Field id="updateInterval" type="menu" defaultValue="30">
+                <Label>Update Interval:</Label>
+                <List>
+                    <Option value="5">5 seconds</Option>
+                    <Option value="10">10 seconds</Option>
+                    <Option value="30">30 seconds</Option>
+                    <Option value="60">1 minute</Option>
+                    <Option value="300">5 minutes</Option>
+                </List>
+            </Field>
+            <Field id="diskMountPoint" type="textfield" defaultValue="/">
+                <Label>Disk Volume to Monitor:</Label>
+                <Description>Mount point to report free space for, e.g. / for the boot volume.</Description>
+            </Field>
+        </ConfigUI>
+        <States>
+            <State id="cpuPercent">
+                <ValueType>Number</ValueType>
+                <TriggerLabel>CPU Percentage</TriggerLabel>
+                <ControlPageLabel>CPU %</ControlPageLabel>
+            </State>
+            <State id="memoryPercent">
+                <ValueType>Number</ValueType>
+                <TriggerLabel>Memory Percentage</TriggerLabel>
+                <ControlPageLabel>Memory %</ControlPageLabel>
+            </State>
+            <State id="memoryUsedGB">
+                <ValueType>Number</ValueType>
+                <TriggerLabel>Memory Used (GB)</TriggerLabel>
+                <ControlPageLabel>Memory Used</ControlPageLabel>
+            </State>
+            <State id="memoryTotalGB">
+                <ValueType>Number</ValueType>
+                <TriggerLabel>Memory Total (GB)</TriggerLabel>
+                <ControlPageLabel>Memory Total</ControlPageLabel>
+            </State>
+            <State id="diskFreeGB">
+                <ValueType>Number</ValueType>
+                <TriggerLabel>Disk Free (GB)</TriggerLabel>
+                <ControlPageLabel>Disk Free</ControlPageLabel>
+            </State>
+            <State id="diskTotalGB">
+                <ValueType>Number</ValueType>
+                <TriggerLabel>Disk Total (GB)</TriggerLabel>
+                <ControlPageLabel>Disk Total</ControlPageLabel>
+            </State>
+            <State id="diskFreePercent">
+                <ValueType>Number</ValueType>
+                <TriggerLabel>Disk Free Percentage</TriggerLabel>
+                <ControlPageLabel>Disk Free %</ControlPageLabel>
+            </State>
+            <State id="networkSentMBps">
+                <ValueType>Number</ValueType>
+                <TriggerLabel>Network Sent (MB/s)</TriggerLabel>
+                <ControlPageLabel>Network Sent</ControlPageLabel>
+            </State>
+            <State id="networkRecvMBps">
+                <ValueType>Number</ValueType>
+                <TriggerLabel>Network Received (MB/s)</TriggerLabel>
+                <ControlPageLabel>Network Recv</ControlPageLabel>
+            </State>
+            <State id="uptimeHours">
+                <ValueType>Number</ValueType>
+                <TriggerLabel>Uptime (Hours)</TriggerLabel>
+                <ControlPageLabel>Uptime</ControlPageLabel>
+            </State>
+            <State id="topCpuProcess">
+                <ValueType>String</ValueType>
+                <TriggerLabel>Top CPU Process</TriggerLabel>
+                <ControlPageLabel>Top CPU Process</ControlPageLabel>
+            </State>
+            <State id="topMemProcess">
+                <ValueType>String</ValueType>
+                <TriggerLabel>Top Memory Process</TriggerLabel>
+                <ControlPageLabel>Top Memory Process</ControlPageLabel>
+            </State>
+            <State id="allDisksStatus">
+                <ValueType>String</ValueType>
+                <TriggerLabel>All Connected Disks</TriggerLabel>
+                <ControlPageLabel>All Disks</ControlPageLabel>
+            </State>
+            <State id="upsPercent">
+                <ValueType>Number</ValueType>
+                <TriggerLabel>UPS Battery Percentage</TriggerLabel>
+                <ControlPageLabel>UPS %</ControlPageLabel>
+            </State>
+            <State id="upsOnAcPower">
+                <ValueType>Boolean</ValueType>
+                <TriggerLabel>UPS On AC Power</TriggerLabel>
+                <ControlPageLabel>On AC Power</ControlPageLabel>
+            </State>
+            <State id="upsMinutesLeft">
+                <ValueType>Number</ValueType>
+                <TriggerLabel>UPS Minutes Remaining</TriggerLabel>
+                <ControlPageLabel>UPS Minutes Left</ControlPageLabel>
+            </State>
+            <State id="upsCriticalOnBattery" defaultValue="false">
+                <ValueType>Boolean</ValueType>
+                <TriggerLabel>UPS Critical (On Battery, Low Charge)</TriggerLabel>
+                <ControlPageLabel>UPS Critical</ControlPageLabel>
+            </State>
+            <State id="displayStatus">
+                <ValueType>String</ValueType>
+                <TriggerLabel>Status</TriggerLabel>
+                <ControlPageLabel>Status</ControlPageLabel>
+            </State>
+        </States>
+        <UiDisplayStateId>displayStatus</UiDisplayStateId>
+    </Device>
+</Devices>

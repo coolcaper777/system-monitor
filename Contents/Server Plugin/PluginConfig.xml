@@ -1,0 +1,7 @@
+<?xml version="1.0"?>
+<PluginConfig>
+    <Field id="showDebugInfo" type="checkbox" defaultValue="false">
+        <Label>Enable Debug Logging:</Label>
+        <Description>Logs each poll's raw psutil values and every command this plugin runs.</Description>
+    </Field>
+</PluginConfig>
